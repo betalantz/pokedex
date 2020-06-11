@@ -5,3 +5,4 @@ require_relative '../lib/environment'
 puts "in the binary executable"
 
 Pokedex::APIManager.get_pokemon
+binding.pry

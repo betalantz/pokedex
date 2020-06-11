@@ -7,7 +7,8 @@ class Pokedex::APIManager
 
         url = BASE_URL + "pokemon"
         res = HTTParty.get(url)
-        res
+        pokearr = res["results"]
+        Pokedex::Pokemon.mass_create_from_api(pokearr)
     end
 
 end

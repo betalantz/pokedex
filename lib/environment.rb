@@ -2,7 +2,8 @@ require_relative "./pokedex/version"
 require 'pry'
 require 'httparty'
 
-require_relative './ApiManager'
+require_relative './api_manager'
+require_relative './pokemon'
 
 module Pokedex
 
