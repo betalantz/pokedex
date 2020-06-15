@@ -34,8 +34,8 @@ class Pokedex::CLI
 
     def display_pokemon
         pokemon = Pokedex::Pokemon.all
-        pokemon.each do |poke|
-            puts poke.name
+        pokemon.each.with_index(1) do |poke, index|
+            puts "#{index}. #{poke.name}"
         end
     end
 end
