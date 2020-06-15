@@ -2,7 +2,7 @@
 
 require_relative '../lib/environment'
 
-puts "in the binary executable"
-
-Pokedex::APIManager.get_pokemon
-binding.pry
+# cli = Pokedex::CLI.new
+# cli.start
+Pokedex::CLI.new.start
+# binding.pry

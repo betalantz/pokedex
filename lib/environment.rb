@@ -4,6 +4,7 @@ require 'httparty'
 
 require_relative './api_manager'
 require_relative './pokemon'
+require_relative './cli'
 
 module Pokedex
 
