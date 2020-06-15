@@ -21,15 +21,36 @@ class Pokedex::CLI
     def main_loop
         loop do
             menu
-            
+            input = get_pokemon_choice
+            case input
+            when "exit"
+                break
+            when "invalid"
+                next
+            else
+                puts input
+                # display_single_pokemon(input)
+            end
+
         end
         puts "in main loop"
     end
 
     def menu
         display_pokemon
-        # display_instrutions
-        binding.pry
+        display_instrutions
+        # binding.pry
+    end
+
+    def get_pokemon_choice
+        input = gets.strip.downcase
+        return input if input == "exit"
+        if input.to_i.between?(1, Pokedex::Pokemon.all.length)
+            return input.to_i
+        else
+            puts "ummm....that doesn't make sense"
+            return "invalid"
+        end
     end
 
     def display_pokemon
@@ -37,5 +58,14 @@ class Pokedex::CLI
         pokemon.each.with_index(1) do |poke, index|
             puts "#{index}. #{poke.name}"
         end
+    end
+
+    def display_instrutions
+        puts <<-INST
+
+Please choose a pokemon by number or type 'exit' to exit the program.
+
+
+        INST
     end
 end
