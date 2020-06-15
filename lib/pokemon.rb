@@ -23,4 +23,15 @@ class Pokedex::Pokemon
         @@all << self
     end
 
+    def full_details
+        <<-DESC
+
+POKEMON ID: #{self.id}   NAME: #{self.name}
+Height: #{self.height}   Weight: #{self.weight}
+
+#{types.length > 1 ? "Types": "Type"}: #{types.join(", ")}
+        
+        DESC
+    end
+
 end

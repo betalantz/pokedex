@@ -1,5 +1,10 @@
 class Pokedex::CLI
 
+    def initialize
+        @page = 1
+        @limit = 20
+    end
+
     def start
         introduction
         get_pokemon_data
@@ -16,7 +21,7 @@ class Pokedex::CLI
     end
 
     def get_pokemon_data
-        Pokedex::APIManager.get_pokemon
+        Pokedex::APIManager.get_pokemon(@page, @limit)
     end
 
     def main_loop
@@ -28,13 +33,23 @@ class Pokedex::CLI
                 break
             when "invalid"
                 next
+            when "next"
+                @page += 1
+                _, stop = get_page_range
+                if Pokedex::Pokemon.all.length < stop
+                    get_pokemon_data
+                end
+            when "prev"
+                if @page <= 1
+                    puts "You are on page 1!"
+                else
+                    @page -= 1
+                end
             else
-                puts input
                 display_single_pokemon(input)
             end
 
         end
-        puts "in main loop"
     end
 
     def menu
@@ -45,7 +60,8 @@ class Pokedex::CLI
 
     def get_pokemon_choice
         input = gets.strip.downcase
-        return input if input == "exit"
+        commands = ["exit", "next", "prev"]
+        return input.downcase if commands.include?(input.downcase)
         if input.to_i.between?(1, Pokedex::Pokemon.all.length)
             return input.to_i - 1
         else
@@ -55,16 +71,24 @@ class Pokedex::CLI
     end
 
     def display_pokemon
-        pokemon = Pokedex::Pokemon.all
-        pokemon.each.with_index(1) do |poke, index|
+        start, stop = get_page_range
+        pokemon = Pokedex::Pokemon.all[start...stop]
+        pokemon.each.with_index(start) do |poke, index|
             puts "#{index}. #{poke.name}"
         end
+    end
+
+    def get_page_range
+        [(@page - 1) * @limit, @page * @limit]
     end
 
     def display_single_pokemon(i)
         poke_obj = Pokedex::Pokemon.all[i]
         Pokedex::APIManager.get_pokemon_details(poke_obj)
-        binding.pry
+        # binding.pry
+        puts poke_obj.full_details
+        puts 'press any key to continue'
+        gets
     end
 
     def display_instrutions
