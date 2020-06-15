@@ -12,7 +12,7 @@ class Pokedex::Pokemon
         end
     end
 
-    attr_accessor :name, :url
+    attr_accessor :name, :url, :weight, :height, :id, :types
 
     def initialize(name, url)
         @name, @url = name, url

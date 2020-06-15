@@ -3,6 +3,7 @@ class Pokedex::CLI
     def start
         introduction
         get_pokemon_data
+        # binding.pry
         main_loop
     end
 
@@ -29,7 +30,7 @@ class Pokedex::CLI
                 next
             else
                 puts input
-                # display_single_pokemon(input)
+                display_single_pokemon(input)
             end
 
         end
@@ -46,7 +47,7 @@ class Pokedex::CLI
         input = gets.strip.downcase
         return input if input == "exit"
         if input.to_i.between?(1, Pokedex::Pokemon.all.length)
-            return input.to_i
+            return input.to_i - 1
         else
             puts "ummm....that doesn't make sense"
             return "invalid"
@@ -58,6 +59,12 @@ class Pokedex::CLI
         pokemon.each.with_index(1) do |poke, index|
             puts "#{index}. #{poke.name}"
         end
+    end
+
+    def display_single_pokemon(i)
+        poke_obj = Pokedex::Pokemon.all[i]
+        Pokedex::APIManager.get_pokemon_details(poke_obj)
+        binding.pry
     end
 
     def display_instrutions
